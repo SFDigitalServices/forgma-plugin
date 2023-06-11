@@ -1,0 +1,8 @@
+{
+  "name": "forgma-plugin",
+  "version": "0.0.1",
+  "author": "John Dunning",
+  "description": "A Figma plugin for generating forms in Form.io",
+  "license": "ISC",
+  "workspaces": ["./packages/*"]
+}
