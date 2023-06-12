@@ -48,7 +48,7 @@ jobs:
           TAG=v$(date -Iseconds | sed 's/-[^-]\+$//g' | sed 's/[T:\+]/-/g')
           echo "$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
+          git tag -a $TAG -m "Published version $TAG" --author="GitHub Action" ${GITHUB_SHA}
           git push origin $TAG
 
       - name: Release
