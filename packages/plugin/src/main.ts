@@ -3,7 +3,9 @@ import { selection } from "@/utils/plugin";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
 import { generateKeys } from "@/utils/open-ai";
 
-const CreateFormURL = "http://127.0.0.1:3000/api/create";
+//const CreateFormURL = "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-ebdb2c50-b3cd-475a-a51d-2cf90d5b6185/formio/create";
+//const CreateFormURL = "http://127.0.0.1:3000/api/create";
+const CreateFormURL = "https://formio-proxy-nu.vercel.app/api/create";
 const FormTag = "FORGMA";
 
 function createForm(
@@ -83,7 +85,7 @@ export default async function() {
 
 				console.log("response", response, responseJSON);
 
-				if (response.ok) {
+				if (responseJSON.status === 200) {
 					exitMessage = `Form created: ${form.name}`;
 				} else {
 					exitMessage = `ERROR: ${responseJSON.message}`;
