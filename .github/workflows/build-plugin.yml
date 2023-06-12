@@ -41,11 +41,12 @@ jobs:
       - name: Build
         run: npm run build:plugin
 
+#          TAG=v$(date -Iseconds | sed 's/-[^-]\+$//g' | sed 's/[^0-9-]/-/g')
       - name: Add a tag
         id: tag
         run: |
           # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
-          TAG=v$(date -Iseconds | sed 's/-[^-]\+$//g' | sed 's/[^0-9-]/-/g')
+          TAG=v$(date -Iseconds | sed 's/[^0-9-]/-/g')
           echo "$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           git config user.name "GitHub Action"
