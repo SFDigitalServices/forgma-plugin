@@ -3,3 +3,5 @@
 **/.idea
 **/node_modules
 **/To do.md
+**/build
+**/*.zip
