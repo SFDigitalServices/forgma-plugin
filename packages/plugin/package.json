@@ -7,7 +7,9 @@
   "license": "ISC",
   "main": "src/index.ts",
   "scripts": {
-    "build": "build-figma-plugin --typecheck --minify",
+    "build:plugin": "build-figma-plugin --typecheck --minify",
+    "build:zip": "node scripts/zip.js",
+    "build": "npm run build:plugin && npm run build:zip",
     "dev": "build-figma-plugin --typecheck --watch"
   },
   "figma-plugin": {
@@ -27,6 +29,7 @@
     "@create-figma-plugin/build": "^2.4.0",
     "@create-figma-plugin/tsconfig": "^2.4.0",
     "@figma/plugin-typings": "^1.64.0",
+    "adm-zip": "^0.5.10",
     "typescript": "^4"
   }
 }
