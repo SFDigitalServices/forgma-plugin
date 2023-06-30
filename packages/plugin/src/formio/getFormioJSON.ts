@@ -8,6 +8,7 @@ import {
 import AlertCallout from "@/formio/alertCallout";
 import Checkbox from "@/formio/checkbox";
 import CheckboxText from "@/formio/checkboxText";
+import Dropdown from "@/formio/dropdown";
 import Fieldset from "@/formio/fieldset";
 import Notes from "@/formio/notes";
 import PlainText from "@/formio/plainText";
@@ -21,6 +22,7 @@ const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntri
 	AlertCallout,
 	Checkbox,
 	CheckboxText,
+	Dropdown,
 	Fieldset,
 	Notes,
 	PlainText,

@@ -1,12 +1,17 @@
 import { FormioJSON, isFrame, isNotEmpty } from "@/types";
 import { selection } from "@/utils/plugin";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
-import { generateKeys } from "@/utils/open-ai";
+import { generateErrors, generateKeys } from "@/utils/open-ai";
+import { extractLabels, extractRequiredLabels } from "@/utils/labels";
 
 //const CreateFormURL = "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-ebdb2c50-b3cd-475a-a51d-2cf90d5b6185/formio/create";
 //const CreateFormURL = "http://127.0.0.1:3000/api/create";
 const CreateFormURL = "https://formio-proxy-nu.vercel.app/api/create";
 const FormTag = "FORGMA";
+
+//const url = "https://codepen.io/fwextensions/full/XWxeNNq?form_id=FORGMAcannabisCommunityOutreachAndGood&page=2";
+const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/dev-ruehbbakcoznmcf/${id}`;
+const openBrowserUIString = (id: string) => `<script>window.open('${url(id)}','_blank');</script>`;
 
 function createForm(
 	form: FormioJSON)
@@ -33,23 +38,47 @@ async function getFormJSON(
 		const title = `${FormTag} ${panelTitle}`;
 		const name = FormTag + key;
 		const path = name.toLowerCase();
+		const initialKeys = extractLabels(panels)[2];
 		let components: FormioJSON[] = panels;
 
+		console.log("==== panels before gpt", panels);
+		console.log(`==== keys before gpt\n${initialKeys.join("\n")}`);
+//		console.log(`==== keys before gpt\n${extractLabels(panels)[2].join("\n")}`);
+
 		try {
-			console.log("==== panels before gpt", panels);
-			figma.notify("Talking to our robot overlords...", { timeout: 10000 });
+			figma.notify("Talking to our robot overlords...", { timeout: 15000 });
 
 			const result = await generateKeys(components);
-
-			console.log("==== panels after gpt", result);
 
 			if (result) {
 					// only update the components if we got something back from the server
 				components = result;
+
+//				const newKeys = extractLabels(result)[2];
+				console.log(`==== keys after gpt\n${extractLabels(result)[2].map((newKey, i) => `${initialKeys[i]}:\t\t${newKey}`).join("\n")}`);
+//				const newKeys = extractLabels(result)[2].map((newKey, i) => [initialKeys[i], newKey]);
+//				console.table(newKeys, ["default", "robotified"]);
+//				console.log(`==== keys after gpt\n${extractLabels(result)[2].join("\n")}`);
 			}
 		} catch (e) {
 			console.error(e);
 		}
+
+		try {
+			figma.notify("Talking to our robot overlords...", { timeout: 15000 });
+
+			const result = await generateErrors(components);
+
+			if (result) {
+					// only update the components if we got something back from the server
+				components = result;
+				console.log(`==== error messages\n${result.map((panel) => panel.components.map((comp) => comp?.validate?.customMessage).filter(o => o)).flat().join("\n")}`);
+			}
+		} catch (e) {
+			console.error(e);
+		}
+
+		console.log("==== panels after gpt", components);
 
 		components = components.map(processPanelConditionals);
 
@@ -85,10 +114,12 @@ export default async function() {
 
 				console.log("response", response, responseJSON);
 
-				if (responseJSON.status === 200) {
+				if (response.status == 200) {
 					exitMessage = `Form created: ${form.name}`;
+
+					figma.showUI(openBrowserUIString(form.name), { visible: false });
 				} else {
-					exitMessage = `ERROR: ${responseJSON.message}`;
+					exitMessage = `ERROR: ${response.message}`;
 				}
 			} catch (e) {
 				console.error(e);
@@ -99,5 +130,6 @@ export default async function() {
 		}
 	}
 
-	figma.closePlugin(exitMessage);
+	setTimeout(() => figma.closePlugin(exitMessage), 500);
+//	figma.closePlugin(exitMessage);
 }
