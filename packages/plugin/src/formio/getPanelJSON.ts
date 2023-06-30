@@ -2,6 +2,7 @@ import { FormioJSON, FormioOptionProps, isNotEmpty } from "@/types";
 import { findChildByName, findChildByPath } from "@/utils/plugin";
 import { uniqueKey } from "@/utils/string";
 import { getFormioJSON } from "@/formio/getFormioJSON";
+import { Component, Panel } from "@/utils/labels";
 
 	// find the last component that could serve as a source of values in a conditional
 const lastSource = (array: readonly any[]) => [...array].reverse().find(({ values }) => values);
@@ -118,7 +119,7 @@ export function processPanelConditionals(
 }
 
 export async function getPanelJSON(
-	node: FrameNode)
+	node: FrameNode): Promise<Panel|null>
 {
 	const mainContent = findChildByPath(node, "Content area/Main content") as FrameNode;
 	const firstPageContent = findChildByPath(node, "Content area/Main content/Content") as FrameNode;
@@ -131,7 +132,7 @@ export async function getPanelJSON(
 			// we just put its text directly into the title prop of the panel
 		const children = content.children.filter(child => child !== pageTitle);
 			// convert the child nodes to JSON objects corresponding to Formio components
-		const components = processChildren(children);
+		const components = processChildren(children) as Component[];
 
 		return {
 			type: "panel",

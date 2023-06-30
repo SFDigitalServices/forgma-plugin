@@ -19,7 +19,8 @@ export interface Component {
 	[key: string]: any;
 }
 
-interface Panel {
+export interface Panel extends FormioJSON {
+	type: "panel",
 	components: Component[];
 }
 const NumberPattern = /^\d+\.\s+/;

@@ -2,7 +2,7 @@ import { FormioJSON, isFrame, isNotEmpty } from "@/types";
 import { selection } from "@/utils/plugin";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
 import { generateErrors, generateKeys } from "@/utils/open-ai";
-import { extractLabels, extractRequiredLabels } from "@/utils/labels";
+import { extractLabels, Panel } from "@/utils/labels";
 
 //const CreateFormURL = "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-ebdb2c50-b3cd-475a-a51d-2cf90d5b6185/formio/create";
 //const CreateFormURL = "http://127.0.0.1:3000/api/create";
@@ -29,21 +29,20 @@ async function getFormJSON(
 {
 		// getPanelJSON returns a promise, since it calls the OpenAI API, so wait for
 		// all the promises to settle before filtering out any nulls
-	const panels = (await Promise.all(node.children.filter(isFrame).map(getPanelJSON)))
+	const panels: Panel[] = (await Promise.all(node.children.filter(isFrame).map(getPanelJSON)))
 		.filter(isNotEmpty);
 	const [firstPanel] = panels;
 
 	if (firstPanel) {
 		const { title: panelTitle, key } = firstPanel;
 		const title = `${FormTag} ${panelTitle}`;
-		const name = FormTag + key;
+		const name = key;
 		const path = name.toLowerCase();
 		const initialKeys = extractLabels(panels)[2];
 		let components: FormioJSON[] = panels;
 
 		console.log("==== panels before gpt", panels);
 		console.log(`==== keys before gpt\n${initialKeys.join("\n")}`);
-//		console.log(`==== keys before gpt\n${extractLabels(panels)[2].join("\n")}`);
 
 		try {
 			figma.notify("Talking to our robot overlords...", { timeout: 15000 });
@@ -55,7 +54,7 @@ async function getFormJSON(
 				components = result;
 
 //				const newKeys = extractLabels(result)[2];
-				console.log(`==== keys after gpt\n${extractLabels(result)[2].map((newKey, i) => `${initialKeys[i]}:\t\t${newKey}`).join("\n")}`);
+//				console.log(`==== keys after gpt\n${extractLabels(result)[2].map((newKey, i) => `${initialKeys[i]}:\t\t${newKey}`).join("\n")}`);
 //				const newKeys = extractLabels(result)[2].map((newKey, i) => [initialKeys[i], newKey]);
 //				console.table(newKeys, ["default", "robotified"]);
 //				console.log(`==== keys after gpt\n${extractLabels(result)[2].join("\n")}`);
@@ -72,7 +71,7 @@ async function getFormJSON(
 			if (result) {
 					// only update the components if we got something back from the server
 				components = result;
-				console.log(`==== error messages\n${result.map((panel) => panel.components.map((comp) => comp?.validate?.customMessage).filter(o => o)).flat().join("\n")}`);
+				console.log(`==== error messages\n${result.map((panel) => panel.components.map((comp: Panel) => comp?.validate?.customMessage).filter((o: Panel) => o)).flat().join("\n")}`);
 			}
 		} catch (e) {
 			console.error(e);
@@ -119,7 +118,7 @@ export default async function() {
 
 					figma.showUI(openBrowserUIString(form.name), { visible: false });
 				} else {
-					exitMessage = `ERROR: ${response.message}`;
+					exitMessage = `ERROR: ${response.text}`;
 				}
 			} catch (e) {
 				console.error(e);
@@ -131,5 +130,4 @@ export default async function() {
 	}
 
 	setTimeout(() => figma.closePlugin(exitMessage), 500);
-//	figma.closePlugin(exitMessage);
 }
