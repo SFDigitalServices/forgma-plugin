@@ -107,19 +107,19 @@ function processConditionals(
 }
 
 export function processPanelConditionals(
-	panel: FormioJSON)
+	panel: Panel)
 {
 	const { components } = panel;
 
 		// apply any conditionals in the array to the indented components that
 		// follow them
-	panel.components = processConditionals(components);
+	panel.components = processConditionals(components) as Component[];
 
 	return panel;
 }
 
-export async function getPanelJSON(
-	node: FrameNode): Promise<Panel|null>
+export function getPanelJSON(
+	node: FrameNode): Panel | null
 {
 	const mainContent = findChildByPath(node, "Content area/Main content") as FrameNode;
 	const firstPageContent = findChildByPath(node, "Content area/Main content/Content") as FrameNode;

@@ -32,6 +32,8 @@ const targetTypes = [
 	"selectboxes",
 	"textfield",
 	"textarea",
+	"phoneNumber",
+	"email"
 ];
 
 function getByPath(
@@ -95,6 +97,30 @@ export function extractLabels(
 	});
 
 	return [labels, paths, existingKeys];
+}
+
+export function extractLabelsKeysOptions(
+	panels: Panel[])
+{
+	const result: string[] = [];
+
+	panels.forEach((panel) => {
+		panel.components.forEach((component) => {
+			const { type, label, key, values } = component;
+
+			if (targetTypes.includes(type)) {
+				const row = [label, key, type];
+
+				if (values) {
+					row.push(values.map(({ value }) => value).join(", "));
+				}
+
+				result.push(row.join("\t"));
+			}
+		});
+	});
+
+	return result.join("\n");
 }
 
 export function extractRequiredLabels(
