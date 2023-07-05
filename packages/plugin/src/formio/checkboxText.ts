@@ -11,7 +11,7 @@ const spec: ComponentSpec = [
 		return {
 			type: "checkbox",
 			key: uniqueKey(props.checkboxText),
-			tableView: false,
+			tableView: true,
 			input: true,
 			defaultValue: props.type === "Selected",
 			...getFormioProperties(props)

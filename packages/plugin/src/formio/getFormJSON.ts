@@ -178,6 +178,10 @@ const DefaultForm = {
 	},
 	controller: "try {\n\tFormio.requireLibrary(\"add-save-link\", \"\", \"https://static.sf.gov/formio/js/add-save-link.js\");\n} catch (e) {\n\tconsole.error(e);\n}\n",
 };
+const FirstPanelProperties = {
+	hideSidebar: "true",
+	hideFromNavigation: "true"
+};
 
 export async function getFormJSON(
 	node: FrameNode)
@@ -194,6 +198,10 @@ export async function getFormJSON(
 		const name = key;
 		const path = name.toLowerCase();
 		let components = panels;
+
+			// we don't want the first panel to show the nav bar on the right or to be
+			// listed in it
+		firstPanel.properties = { ...FirstPanelProperties };
 
 		console.log("==== panels before gpt", panels);
 
@@ -218,10 +226,6 @@ export async function getFormJSON(
 			if (result) {
 					// only update the components if we got something back from the server
 				components = result;
-//				console.log(`==== error messages\n${result.map(
-//					(panel) => panel.components.map(
-//						(comp: Panel) => comp?.validate?.customMessage).filter(
-//						(o: Panel) => o)).flat().join("\n")}`);
 			}
 		} catch (e) {
 			console.error(e);
@@ -229,8 +233,15 @@ export async function getFormJSON(
 
 		console.log("==== panels after gpt", components);
 
-		console.log(`▼▼▼▼ copy and paste these cells into a spreadsheet ▼▼▼▼\n\n${extractLabelsKeysOptions(components)}\n\n▲▲▲▲ copy and paste these cells into a spreadsheet ▲▲▲▲`);
-//		console.log(`==== keys after gpt\n${newLabels.map((newLabel, i) => `${newLabel}\t${newKeys[i]}`).join("\n")}`);
+			// print out tab-delimited cells with the label, key, type and options of
+			// each component in the form, so that they can be easily copied into a
+			// mapping document
+		console.log(
+`▼▼▼▼ copy and paste these cells into a spreadsheet ▼▼▼▼
+
+${extractLabelsKeysOptions(components)}
+
+▲▲▲▲ copy and paste these cells into a spreadsheet ▲▲▲▲`);
 
 		components = components.map(processPanelConditionals);
 

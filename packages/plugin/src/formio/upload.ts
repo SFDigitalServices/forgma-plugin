@@ -11,7 +11,7 @@ const spec: ComponentSpec = [
 		return {
 			type: "file",
 			key: uniqueKey(props.labelText),
-			tableView: false,
+			tableView: true,
 			input: true,
 			storage: "azure",
 			dir: "ooc-equity-mvp",

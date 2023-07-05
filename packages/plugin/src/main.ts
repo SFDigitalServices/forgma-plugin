@@ -37,7 +37,7 @@ export default async function() {
 				const response = await createForm(form);
 				const responseText = await response.text();
 
-				console.log("response", response, responseText.slice(0, 100));
+				console.log("response", response, "TEXT:", responseText.slice(0, 100));
 				console.log("response JSON", JSON.parse(responseText));
 
 				if (response.status == 200) {

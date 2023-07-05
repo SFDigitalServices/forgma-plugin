@@ -12,7 +12,7 @@ const spec: ComponentSpec = [
 		return {
 			type: "selectboxes",
 			key: uniqueKey(props.labelText),
-			tableView: false,
+			tableView: true,
 			inputType: "checkbox",
 			optionsLabelPosition: "right",
 			...getFormioProperties(props),

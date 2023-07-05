@@ -12,7 +12,7 @@ const spec: ComponentSpec = [
 		return {
 			type: "radio",
 			key: uniqueKey(props.labelText),
-			tableView: false,
+			tableView: true,
 			input: true,
 			optionsLabelPosition: "right",
 			...getFormioProperties(props),
