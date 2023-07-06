@@ -2,8 +2,6 @@ import {
 	ComponentProcessor,
 	isFrame,
 	isInstance,
-	isNotEmpty,
-	isText
 } from "@/types";
 import AlertCallout from "@/formio/alertCallout";
 import Checkbox from "@/formio/checkbox";
@@ -17,11 +15,13 @@ import TextArea from "@/formio/textArea";
 import TextField from "@/formio/textField";
 import TextNode from "@/formio/textNode";
 import Upload from "@/formio/upload";
+import { Documents, Time } from "@/formio/introNotes";
 
 const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntries([
 	AlertCallout,
 	Checkbox,
 	CheckboxText,
+	Documents,
 	Dropdown,
 	Fieldset,
 	Notes,
@@ -30,6 +30,7 @@ const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntri
 	TextArea,
 	TextField,
 	TextNode,
+	Time,
 	Upload
 ]);
 
@@ -61,7 +62,7 @@ export function getFormioJSON(
 	const type = getComponentType(node);
 	const processor = ComponentProcessors[type];
 
-	if (processor && (isInstance(node) || isText(node))) {
+	if (processor && node) {
 		const json = processor(node);
 
 		if (json && json.type !== "Conditional" && isInstance(node) && node.paddingLeft) {

@@ -1,6 +1,6 @@
 export type FormioJSON = Record<string, any>;
 export type FigmaComponentProps = Record<string, string|boolean>;
-export type ComponentProcessor = (node: InstanceNode|TextNode) => FormioJSON|null;
+export type ComponentProcessor = (node: SceneNode) => FormioJSON|null;
 export type ComponentSpec = [string, ComponentProcessor];
 
 export type FormioOptionProps = {

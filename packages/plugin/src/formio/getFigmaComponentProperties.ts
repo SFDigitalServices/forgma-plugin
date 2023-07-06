@@ -2,7 +2,7 @@ import { FigmaComponentProps, isInstance } from "@/types";
 import { clean } from "@/utils/string";
 
 export function getFigmaComponentProperties(
-	node: InstanceNode|TextNode): FigmaComponentProps
+	node: SceneNode): FigmaComponentProps
 {
 	if (!isInstance(node)) {
 		return {};
