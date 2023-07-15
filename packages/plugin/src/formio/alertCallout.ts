@@ -1,7 +1,7 @@
 import { ComponentSpec } from "@/types";
-import { uniqueKey } from "@/utils/string";
 import { getFormioProperties } from "@/formio/getFormioProperties";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
+import { htmlelement } from "@/formio/htmlelement";
 
 const AlertStylesByType: Record<string, { icon: string, iconClass: string, bg: string }> = {
 	Informational: {
@@ -28,15 +28,12 @@ const spec: ComponentSpec = [
 		const { type, alertMessage } = props;
 		const { icon, iconClass, bg } = AlertStylesByType[String(type)];
 
-		return {
-			type: "htmlelement",
-			key: uniqueKey(alertMessage),
+		return htmlelement({
+			text: alertMessage as string,
+			key: alertMessage as string,
 			label: `${type} alert`,
-			tag: "div",
-			content: `<span class="mr-2 ${iconClass}" data-icon="${icon}"></span>\n<span>\n${alertMessage}\n</span>\n`,
+			content: `<span class="mr-2 ${iconClass}" data-icon="${icon}"></span>\n${alertMessage}\n`,
 			className: `flex flex-items-start p-40 my-40 ${bg}`,
-			tableView: false,
-			input: false,
 			lockKey: true,
 			source: "61b7cba855627e36d98108ca",
 			isNew: true,
@@ -47,7 +44,7 @@ const spec: ComponentSpec = [
 				}
 			],
 			...getFormioProperties(props)
-		};
+		});
 	}
 ];
 

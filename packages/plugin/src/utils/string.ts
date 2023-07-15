@@ -60,7 +60,9 @@ export function uniqueKey(
 			.join("");
 	}
 
-	result = autoIncrement(result);
+// TODO: should rename this function, as we're disabling the uniqueness of names,
+//  and relying on ChatGPT to do it
+//	result = autoIncrement(result);
 
 	return result;
 }

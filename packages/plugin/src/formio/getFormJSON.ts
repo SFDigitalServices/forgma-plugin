@@ -1,7 +1,8 @@
 import { extractLabelsKeysOptions } from "@/utils/labels";
+import { generateErrors, generateKeys } from "@/utils/open-ai";
 import { isFrame, isNotEmpty } from "@/types";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
-import { generateErrors, generateKeys } from "@/utils/open-ai";
+import { hiddenFields, hiddenFieldsPageName } from "@/formio/hiddenFields";
 
 const FormTag = "FORGMA";
 const DefaultForm = {
@@ -202,6 +203,12 @@ export async function getFormJSON(
 			// we don't want the first panel to show the nav bar on the right or to be
 			// listed in it
 		firstPanel.properties = { ...FirstPanelProperties };
+
+		if (figma.currentPage.name === hiddenFieldsPageName) {
+				// if this is a Part 2 OOC form, add some hidden fields that will be filled
+				// in by an Airtable automation
+			firstPanel.components.unshift(hiddenFields);
+		}
 
 		console.log("==== panels before gpt", panels);
 
