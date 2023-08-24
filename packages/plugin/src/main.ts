@@ -7,7 +7,8 @@ import { getFormJSON } from "@/formio/getFormJSON";
 const CreateFormURL = "https://formio-proxy-nu.vercel.app/api/create";
 
 //const url = "https://codepen.io/fwextensions/full/XWxeNNq?form_id=FORGMAcannabisCommunityOutreachAndGood&page=2";
-const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/ooc-form/${id}`;
+const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/oewdlive-ruehbbakcoznmcf/${id}`;
+//const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/ooc-form/${id}`;
 const openBrowserUIString = (id: string) => `<script>window.open('${url(id)}','_blank');</script>`;
 
 function createForm(

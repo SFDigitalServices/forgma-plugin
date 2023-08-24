@@ -4,6 +4,19 @@ import { isFrame, isNotEmpty } from "@/types";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
 import { hiddenFields, hiddenFieldsPageName } from "@/formio/hiddenFields";
 
+const Roles = {
+	OOC: {
+		Administrator: "610b0c5358fe8ce406e8f4ec",
+		Authenticated: "610b0c5358fe8c749be8f4ed",
+		Anonymous: "610b0c5358fe8c0756e8f4ee",
+	},
+	OEWD: {
+		Administrator: "6124300e58fe8ccd00e91246",
+		Authenticated: "6124300e58fe8c0669e91247",
+		Anonymous: "6124300e58fe8c82b5e91248",
+	}
+};
+const Environment = "OEWD";
 const FormTag = "FORGMA";
 const DefaultForm = {
 	type: "form",
@@ -25,9 +38,9 @@ const DefaultForm = {
 		{
 			type: "read_all",
 			roles: [
-				"610b0c5358fe8ce406e8f4ec",
-				"610b0c5358fe8c749be8f4ed",
-				"610b0c5358fe8c0756e8f4ee"
+				Roles[Environment].Administrator,
+				Roles[Environment].Authenticated,
+				Roles[Environment].Anonymous,
 			]
 		},
 		{
@@ -67,13 +80,13 @@ const DefaultForm = {
 		{
 			type: "create_own",
 			roles: [
-				"610b0c5358fe8c0756e8f4ee"
+				Roles[Environment].Anonymous,
 			]
 		},
 		{
 			type: "create_all",
 			roles: [
-				"610b0c5358fe8c0756e8f4ee"
+				Roles[Environment].Anonymous,
 			]
 		},
 		{
@@ -83,7 +96,7 @@ const DefaultForm = {
 		{
 			type: "read_all",
 			roles: [
-				"610b0c5358fe8ce406e8f4ec"
+				Roles[Environment].Administrator,
 			]
 		},
 		{
@@ -93,7 +106,7 @@ const DefaultForm = {
 		{
 			type: "update_all",
 			roles: [
-				"610b0c5358fe8c0756e8f4ee"
+				Roles[Environment].Administrator,
 			]
 		},
 		{

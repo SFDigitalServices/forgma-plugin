@@ -138,7 +138,6 @@ export function getPanelJSON(
 			type: "panel",
 			title,
 			key: uniqueKey(title),
-			label: title,
 			breadcrumbClickable: true,
 			buttonSettings: {
 				previous: true,
