@@ -5,20 +5,24 @@ import { getFigmaComponentProperties } from "@/formio/getFigmaComponentPropertie
 import { findChildByPath } from "@/utils/plugin";
 
 const spec: ComponentSpec = [
-	"Checkbox",
+	"Select",
 	(node) => {
 		const props = getFigmaComponentProperties(node);
-		const labelNode = findChildByPath((node as unknown) as FrameNode, "_checkbox row/Checkbox + Label/Label text");
-		const label = (labelNode as TextNode).characters;
+//		const labelNode = findChildByPath((node as unknown) as FrameNode, "Label + Field/_Field label");
+//		const labelProps = getFigmaComponentProperties(labelNode as InstanceNode);
+//		const label = labelProps.fieldLabel;
+
+console.log("=== Select", getFormioProperties(props), props);
 
 		return {
-			type: "checkbox",
-			key: uniqueKey(label),
+			type: "select",
+//			label,
+//			key: uniqueKey(label),
 			tableView: true,
-			input: true,
-			defaultValue: props.Checkbox === "Selected",
+			widget: "choicesjs",
+			lockKey: true,
+			tags: ["autocomplete"],
 			...getFormioProperties(props),
-			label
 		};
 	}
 ];

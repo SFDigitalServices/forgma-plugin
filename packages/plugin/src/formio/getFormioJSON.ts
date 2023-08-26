@@ -1,16 +1,18 @@
 import {
 	ComponentProcessor,
+	FormioJSON,
 	isFrame,
 	isInstance,
 } from "@/types";
 import AlertCallout from "@/formio/alertCallout";
 import Checkbox from "@/formio/checkbox";
-import CheckboxText from "@/formio/checkboxText";
 import Dropdown from "@/formio/dropdown";
 import Fieldset from "@/formio/fieldset";
 import Notes from "@/formio/notes";
 import PlainText from "@/formio/plainText";
 import Radio from "@/formio/radio";
+import Select from "@/formio/select";
+import SelectBoxes from "@/formio/selectBoxes";
 import TextArea from "@/formio/textArea";
 import TextField from "@/formio/textField";
 import TextNode from "@/formio/textNode";
@@ -20,15 +22,18 @@ import { Documents, Time } from "@/formio/introNotes";
 const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntries([
 	AlertCallout,
 	Checkbox,
-	CheckboxText,
 	Documents,
 	Dropdown,
 	Fieldset,
 	Notes,
 	PlainText,
 	Radio,
+	Select,
+	SelectBoxes,
 	TextArea,
 	TextField,
+// TODO: this is an ugly kludge
+	["Text field/Default", TextField[1]],
 	TextNode,
 	Time,
 	Upload
@@ -57,7 +62,7 @@ function getComponentType(
 }
 
 export function getFormioJSON(
-	node: SceneNode)
+	node: SceneNode): FormioJSON|null
 {
 	const type = getComponentType(node);
 	const processor = ComponentProcessors[type];
@@ -72,6 +77,16 @@ export function getFormioJSON(
 		}
 
 		return json;
+	} else if (isFrame(node) && node.children.length) {
+		const [conditional, ...components] = node.children.map(getFormioJSON);
+
+		if (conditional?.type === "Conditional") {
+				// in the OEWD forms, conditionals are grouped with the elements the
+				// affect, so add a conditionalLevel to each child in the group
+			components.forEach(component => component && (component.conditionalLevel = 40));
+
+			return [conditional, ...components];
+		}
 	}
 
 	return null;

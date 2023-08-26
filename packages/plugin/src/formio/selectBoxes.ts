@@ -1,20 +1,22 @@
 import { ComponentSpec } from "@/types";
 import { uniqueKey } from "@/utils/string";
 import { getFormioProperties } from "@/formio/getFormioProperties";
+import { getFormioOptionProperties } from "@/formio/getFormioOptionProperties";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
 
 const spec: ComponentSpec = [
-	"Checkbox text",
+	"Select boxes",
 	(node) => {
 		const props = getFigmaComponentProperties(node);
 
 		return {
-			type: "checkbox",
-			key: uniqueKey(props.checkboxText),
+			type: "selectboxes",
+			key: uniqueKey(props.labelText),
 			tableView: true,
-			input: true,
-			defaultValue: props.type === "Selected",
-			...getFormioProperties(props)
+			inputType: "checkbox",
+			optionsLabelPosition: "right",
+			...getFormioProperties(props),
+			...getFormioOptionProperties(node)
 		};
 	}
 ];

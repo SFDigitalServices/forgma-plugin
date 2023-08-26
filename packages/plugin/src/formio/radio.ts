@@ -9,6 +9,9 @@ const spec: ComponentSpec = [
 	(node) => {
 		const props = getFigmaComponentProperties(node);
 
+			// there's no help text field in the component properties
+		delete props.helpText;
+
 		return {
 			type: "radio",
 			key: uniqueKey(props.labelText),
