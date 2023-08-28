@@ -58,7 +58,9 @@ function addConditionalToComponent(
 function processChildren(
 	children: readonly SceneNode[])
 {
-	return children.map(getFormioJSON).filter(isNotEmpty);
+		// flatten the children, since getFormioJSON() may return an array for a
+		// conditional group
+	return children.map(getFormioJSON).flat().filter(isNotEmpty);
 }
 
 function processConditionals(

@@ -13,7 +13,7 @@ const spec: ComponentSpec = [
 			return null;
 		}
 
-		const labels = (props.valueText as string).split(OrPattern);
+		const labels = (props.label as string).split(OrPattern);
 
 		return {
 			type: "Conditional",

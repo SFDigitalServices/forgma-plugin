@@ -5,18 +5,15 @@ import { getFormioOptionProperties } from "@/formio/getFormioOptionProperties";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
 
 const spec: ComponentSpec = [
-	"Radio",
+	"Select boxes",
 	(node) => {
 		const props = getFigmaComponentProperties(node);
 
-			// there's no help text field in the component properties
-		delete props.helpText;
-
 		return {
-			type: "radio",
+			type: "selectboxes",
 			key: uniqueKey(props.labelText),
 			tableView: true,
-			input: true,
+			inputType: "checkbox",
 			optionsLabelPosition: "right",
 			...getFormioProperties(props),
 			...getFormioOptionProperties(node)

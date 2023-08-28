@@ -4,17 +4,18 @@ import { getFormioProperties } from "@/formio/getFormioProperties";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
 
 const spec: ComponentSpec = [
-	"Checkbox text",
+	"Select",
 	(node) => {
 		const props = getFigmaComponentProperties(node);
 
 		return {
-			type: "checkbox",
-			key: uniqueKey(props.checkboxText),
+			type: "select",
+			key: uniqueKey(props.labelText),
 			tableView: true,
-			input: true,
-			defaultValue: props.type === "Selected",
-			...getFormioProperties(props)
+			widget: "choicesjs",
+			lockKey: true,
+			tags: ["autocomplete"],
+			...getFormioProperties(props),
 		};
 	}
 ];

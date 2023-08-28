@@ -6,14 +6,20 @@ const DefaultStrings: Record<string, [string, string]> = {
 };
 
 const isTrue = (key: string) => (props: FigmaComponentProps) => {
+	const isPropertyTrue = key in props
+		? props[key]
+			// if the key isn't in the props, then it means there's no control with
+			// that name in the component properties, so there's no way for the user
+			// to toggle it on or off.  so default it to true in that case.
+		: true;
 	const defaultCheck = DefaultStrings[key];
 
 	if (defaultCheck) {
 		const [stringKey, defaultString] = defaultCheck;
 
-		return props[key] && props[stringKey] !== defaultString;
+		return isPropertyTrue && props[stringKey] !== defaultString;
 	} else {
-		return props[key];
+		return isPropertyTrue;
 	}
 };
 
