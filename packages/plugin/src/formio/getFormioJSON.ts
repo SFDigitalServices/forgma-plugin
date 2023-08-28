@@ -32,7 +32,7 @@ const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntri
 	SelectBoxes,
 	TextArea,
 	TextField,
-// TODO: this is an ugly kludge
+// TODO: this is an ugly kludge to handle text fields with this name
 	["Text field/Default", TextField[1]],
 	TextNode,
 	Time,
