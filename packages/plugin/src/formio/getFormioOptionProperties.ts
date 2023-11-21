@@ -12,9 +12,7 @@ export function getFormioOptionProperties(
 	return node.children
 		.filter(isInstance)
 		.filter(({ visible }) => visible)
-		.reduce((
-			result: FormioOptionValues,
-			node) => {
+		.reduce((result: FormioOptionValues, node) => {
 			const { rowText, text, status } = getFigmaComponentProperties(node);
 			const label = (rowText || text) as string;
 			const value = uniqueKey(label);
