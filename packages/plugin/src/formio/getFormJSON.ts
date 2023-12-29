@@ -1,5 +1,5 @@
 import { extractLabelsKeysOptions } from "@/utils/labels";
-import { generateErrors, generateKeys } from "@/utils/open-ai";
+import { generateErrors, generateKeys } from "@/utils/api";
 import { isFrame, isNotEmpty } from "@/types";
 import { getPanelJSON, processPanelConditionals } from "@/formio/getPanelJSON";
 import { hiddenFields, hiddenFieldsPageName } from "@/formio/hiddenFields";

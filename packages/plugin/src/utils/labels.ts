@@ -80,14 +80,14 @@ export function extractLabels(
 				if (label) {
 						// prepend a number to the label, as that seems to help the AI keep
 						// track of them
-					labels.push(label);
+					pushNumberedLabel(labels, label);
 					paths.push([...componentPath]);
 					existingKeys.push(key);
 				}
 
 				if (values) {
 					values.forEach(({ label, value }, valueIndex) => {
-						labels.push(label);
+						pushNumberedLabel(labels, label);
 						paths.push([...componentPath, "values", valueIndex]);
 						existingKeys.push(value);
 					});
@@ -124,11 +124,10 @@ export function extractLabelsKeysOptions(
 }
 
 export function extractRequiredLabels(
-	panels: Panel[]): [Label[], Path[], string[]]
+	panels: Panel[]): [Label[], Path[]]
 {
 	const labels: Label[] = [];
 	const paths: Path[] = [];
-	const existingKeys: string[] = [];
 
 	panels.forEach((panel, panelIndex) => {
 		panel.components.forEach((component, componentIndex) => {
@@ -142,21 +141,12 @@ export function extractRequiredLabels(
 						// track of them
 					pushNumberedLabel(labels, label);
 					paths.push([...componentPath]);
-					existingKeys.push(key);
 				}
-
-//				if (values) {
-//					values.forEach(({ label, value }, valueIndex) => {
-//						pushNumberedLabel(labels, label);
-//						paths.push([...componentPath, "values", valueIndex]);
-//						existingKeys.push(value);
-//					});
-//				}
 			}
 		});
 	});
 
-	return [labels, paths, existingKeys];
+	return [labels, paths];
 }
 
 //export function extractKeys(
@@ -221,6 +211,25 @@ export function insertKeys(
 			} else {
 				target.key = key;
 			}
+		} else {
+			throw new Error(`Bad path: ${path}`);
+		}
+	});
+
+	return panels;
+}
+
+export function insertErrorMessages(
+	panels: Panel[],
+	paths: Path[],
+	errorMessages: string[])
+{
+	paths.forEach((path, i) => {
+		const errorMessage = errorMessages[i].replace(NumberPattern, "");
+		const target = getByPath(panels, path);
+
+		if (target) {
+			target.validate.customMessage = errorMessage;
 		} else {
 			throw new Error(`Bad path: ${path}`);
 		}

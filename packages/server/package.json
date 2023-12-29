@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "ai": "^2.2.30",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}

@@ -11,7 +11,7 @@ function addSourceToConditional(
 	source: FormioJSON,
 	conditional: FormioJSON)
 {
-	if (source.values) {
+	if (source?.values && conditional?.labels) {
 		const labelPattern = new RegExp(`^(${conditional.labels.join("|")})`, "i");
 		const values = (source.values as FormioOptionProps[])
 			.filter(({ label }) => labelPattern.test(label))

@@ -1,26 +1,11 @@
-import { FormioJSON } from "@/types";
+import { createForm } from "@/utils/api";
 import { selection } from "@/utils/plugin";
 import { getFormJSON } from "@/formio/getFormJSON";
-
-//const CreateFormURL = "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-ebdb2c50-b3cd-475a-a51d-2cf90d5b6185/formio/create";
-//const CreateFormURL = "http://127.0.0.1:3000/api/create";
-const CreateFormURL = "https://formio-proxy-nu.vercel.app/api/create";
 
 //const url = "https://codepen.io/fwextensions/full/XWxeNNq?form_id=FORGMAcannabisCommunityOutreachAndGood&page=2";
 const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/oewdlive-ruehbbakcoznmcf/${id}`;
 //const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/ooc-form/${id}`;
 const openBrowserUIString = (id: string) => `<script>window.open('${url(id)}','_blank');</script>`;
-
-function createForm(
-	form: FormioJSON)
-{
-	const body = JSON.stringify(form);
-
-	return fetch(CreateFormURL, {
-		method: "POST",
-		body
-	});
-}
 
 export default async function() {
 	const [selectedItem] = selection("GROUP");
