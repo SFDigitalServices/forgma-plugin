@@ -1,3 +1,4 @@
+import { fwidgets } from "fwidgets/main";
 import { createForm } from "@/utils/api";
 import { selection } from "@/utils/plugin";
 import { getFormJSON } from "@/formio/getFormJSON";
@@ -7,17 +8,17 @@ const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?sourc
 //const url = (id: string) => `https://formio-sfds.herokuapp.com/api/preview?source=https://formio.sfgov.org/ooc-form/${id}`;
 const openBrowserUIString = (id: string) => `<script>window.open('${url(id)}','_blank');</script>`;
 
-export default async function() {
+export default fwidgets(async ({ input, output }) => {
 	const [selectedItem] = selection("GROUP");
 	let exitMessage = "Make sure a group of panels is selected.";
 
 	if (selectedItem?.children[0].type === "FRAME") {
-		figma.notify("Converting Figma design...", { timeout: 500 });
+		await output.text("Converting Figma design...");
 
 		const form = await getFormJSON(selectedItem.children[0]);
 
 		if (form) {
-			figma.notify("Creating form...", { timeout: 500 });
+			await output.text("Creating form...");
 
 			try {
 				const response = await createForm(form);
@@ -35,12 +36,12 @@ export default async function() {
 				}
 			} catch (e) {
 				console.error(e);
-				exitMessage = `ERROR: ${(e as Error).message}`;
+				exitMessage = `ERROR: ${(e as Error).message.slice(0, 150)}`;
 			}
 
 			console.log("FORM", form);
 		}
 	}
 
-	setTimeout(() => figma.closePlugin(exitMessage), 500);
-}
+	await input.buttons(exitMessage, ["Done"]);
+});
