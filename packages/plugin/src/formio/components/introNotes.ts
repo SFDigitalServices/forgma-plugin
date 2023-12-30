@@ -1,5 +1,5 @@
 import { ComponentSpec } from "@/types";
-import { htmlelement } from "@/formio/htmlelement";
+import { htmlelement } from "@/formio/components/htmlelement";
 
 const content = (icon: string, text: string) => `<span class="mr-2" data-icon="${icon}"></span>\n${text}`;
 

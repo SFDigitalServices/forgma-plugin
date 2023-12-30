@@ -1,7 +1,7 @@
 import { ComponentSpec } from "@/types";
 import { getFormioProperties } from "@/formio/getFormioProperties";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
-import { htmlelement } from "@/formio/htmlelement";
+import { htmlelement } from "@/formio/components/htmlelement";
 
 const spec: ComponentSpec = [
 	"Plain text",

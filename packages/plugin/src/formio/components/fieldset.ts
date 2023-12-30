@@ -1,7 +1,7 @@
 import { ComponentSpec } from "@/types";
 import { uniqueKey } from "@/utils/string";
 import { getFigmaComponentProperties } from "@/formio/getFigmaComponentProperties";
-import mailingAddress from "@/formio/mailingAddress.json";
+import mailingAddress from "@/formio/components/mailingAddress.json";
 
 const spec: ComponentSpec = [
 	"Fieldset",

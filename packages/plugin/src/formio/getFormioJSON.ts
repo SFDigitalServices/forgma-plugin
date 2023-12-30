@@ -4,20 +4,20 @@ import {
 	isFrame,
 	isInstance,
 } from "@/types";
-import AlertCallout from "@/formio/alertCallout";
-import Checkbox from "@/formio/checkbox";
-import Dropdown from "@/formio/dropdown";
-import Fieldset from "@/formio/fieldset";
-import Notes from "@/formio/notes";
-import PlainText from "@/formio/plainText";
-import Radio from "@/formio/radio";
-import Select from "@/formio/select";
-import SelectBoxes from "@/formio/selectBoxes";
-import TextArea from "@/formio/textArea";
-import TextField from "@/formio/textField";
-import TextNode from "@/formio/textNode";
-import Upload from "@/formio/upload";
-import { Documents, Time } from "@/formio/introNotes";
+import AlertCallout from "@/formio/components/alertCallout";
+import Checkbox from "@/formio/components/checkbox";
+import Dropdown from "@/formio/components/dropdown";
+import Fieldset from "@/formio/components/fieldset";
+import Notes from "@/formio/components/notes";
+import PlainText from "@/formio/components/plainText";
+import Radio from "@/formio/components/radio";
+import Select from "@/formio/components/select";
+import SelectBoxes from "@/formio/components/selectBoxes";
+import TextArea from "@/formio/components/textArea";
+import TextField from "@/formio/components/textField";
+import TextNode from "@/formio/components/textNode";
+import Upload from "@/formio/components/upload";
+import { Documents, Time } from "@/formio/components/introNotes";
 
 const ComponentProcessors: Record<string, ComponentProcessor> = Object.fromEntries([
 	AlertCallout,

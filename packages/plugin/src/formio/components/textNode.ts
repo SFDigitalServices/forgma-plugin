@@ -1,5 +1,5 @@
 import { ComponentSpec } from "@/types";
-import { htmlelement } from "@/formio/htmlelement";
+import { htmlelement } from "@/formio/components/htmlelement";
 
 const spec: ComponentSpec = [
 	"TEXT",
